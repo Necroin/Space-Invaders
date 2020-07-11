@@ -2,8 +2,9 @@
 
 Game::Game() : _map(0, 0, 150, 40)
 {
-	_player = std::make_unique<Player>(_map);
+	_map.show_frame();
 	_map.show();
+	_player = std::make_unique<Player>(_map, _player_projectiles);
 }
 
 Game::~Game()
@@ -12,7 +13,7 @@ Game::~Game()
 
 void Game::action()
 {
-	_player->action(_enemies);
+	_player->action();
 }
 
 void Game::update()

@@ -9,6 +9,11 @@ enum class ObjectTag {
 	Projectile
 };
 
+/**
+constructor : ColliderComponent(ObjectTag tag)
+methoods :
+ObjectTag tag()
+*/
 class ColliderComponent : public Component 
 {
 private:
@@ -16,13 +21,10 @@ private:
 public:
 	ColliderComponent(ObjectTag tag) : _tag(tag) {}
 	ObjectTag tag() { return _tag; }
+	virtual Component* copy() const override;
 };
 
-class Body;
 class MechBody;
 
 bool is_collide(const MechBody& one, const MechBody& other);
-bool is_collide(const MechBody& one, const Body& other);
-bool is_collide(const Body& one, const MechBody& other);
-bool is_collide(const Body& one, const Body& other);
 #endif

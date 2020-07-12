@@ -3,12 +3,14 @@
 #define _WEAPON_H_
 #include "../Projectile/Projectile.h"
 
-class Weapon {
+class Weapon : public AutoResetTimer<> {
 protected:
 	ProjectileList& _projectiles;
+	Map& _map;
 public:
-	Weapon(ProjectileList& projectiles) : _projectiles(projectiles) {}
-	virtual void action() {};
-	virtual void update() {};
+	Weapon(Map& map, ProjectileList& projectiles, int fire_delay);
+	virtual void action();
+	virtual void update();
+	virtual void shoot() = 0;
 };
 #endif

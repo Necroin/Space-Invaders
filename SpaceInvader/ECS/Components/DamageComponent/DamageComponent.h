@@ -4,6 +4,10 @@
 #include <functional>
 #include "../../ECS.h"
 
+/**
+constructor : DamageComponent(std::function<bool(int&, int&)> damage_function)
+operator : bool operator()(int& health_points, int& shield) const
+*/
 class DamageComponent : public Component {
 public :
 	using damage_function_type = std::function<bool(int&, int&)>;
@@ -12,7 +16,7 @@ private:
 public:
 	DamageComponent(damage_function_type damage_function);
 	bool operator()(int& health_points, int& shield) const;
-	virtual Component* copy() override;
+	virtual Component* copy() const override;
 };
 
 auto default_damage(int damage) {

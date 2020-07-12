@@ -39,7 +39,7 @@ void VisibleComponent::set_color(int color)
 	_color = color;
 }
 
-Component* VisibleComponent::copy()
+Component* VisibleComponent::copy() const
 {
 	return new VisibleComponent(_symbol,_color);
 }

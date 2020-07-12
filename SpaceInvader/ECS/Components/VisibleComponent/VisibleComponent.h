@@ -40,6 +40,6 @@ public:
 	void show() const;
 	void hide() const;
 	void set_color(int color);
-	virtual Component* copy() override;
+	virtual Component* copy() const override;
 };
 #endif

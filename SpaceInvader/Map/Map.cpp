@@ -25,7 +25,7 @@ void Map::update()
 			decltype(auto) star_visible_component = star.get_component<VisibleComponent>();
 			decltype(auto) star_position_component = star.get_component<PositionComponent>();
 			star_visible_component.hide();
-			star_position_component.move_left();
+			star_position_component.move_forward();
 			if (star_position_component.x() == _frame_x) {
 				star_position_component.move_to(_frame_x + _width, stars_distribution(_stars_random_device));
 			}
@@ -72,6 +72,6 @@ void Map::show() const
 
 Map::Star::Star(size_t x, size_t y)
 {
-	this->add_component<PositionComponent>(x, y);
+	this->add_component<PositionComponent>(x, y, PositionComponent::Direction::left);
 	this->add_component<VisibleComponent>('*');
 }

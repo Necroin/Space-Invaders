@@ -34,7 +34,7 @@ public:
 	template<class _Component, class... Args>
 	_Component& add_component(Args&&...args);
 
-	virtual Component* copy() = 0;
+	virtual Component* copy() const = 0;
 };
 
 class Entity {
@@ -60,6 +60,7 @@ public:
 
 	bool is_destroyed() const noexcept;
 	void destroy() noexcept;
+
 };
 #endif
 

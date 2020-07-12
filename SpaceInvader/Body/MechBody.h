@@ -9,8 +9,7 @@
 class MechBody : public Entity {
 private:
 	friend bool is_collide(const MechBody&, const MechBody&);
-	friend bool is_collide(const Body&, const MechBody&);
-	friend bool is_collide(const MechBody&, const Body&);
+
 protected:
 	class BodyElement : public Entity {
 	public:

@@ -7,7 +7,7 @@ bool DamageComponent::operator()(int& health_points, int& shield) const
 	return _damage_function(health_points, shield);
 }
 
-Component* DamageComponent::copy()
+Component* DamageComponent::copy() const
 {
 	return new DamageComponent(_damage_function);
 }

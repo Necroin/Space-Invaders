@@ -3,12 +3,13 @@
 #define _GAME_H_
 #include "../Map/Map.h"
 #include "../Player/Player.h"
+#include "../Enemy/Interceptor/Interceptor.h"
 
 class Game {
 private:
 	Map _map;
 	std::unique_ptr<Player> _player;
-	std::list<std::unique_ptr<Entity>> _enemies;
+	std::list<std::unique_ptr<Enemy>> _enemies;
 	ProjectileList _player_projectiles;
 	ProjectileList _enemies_projectiles;
 public:

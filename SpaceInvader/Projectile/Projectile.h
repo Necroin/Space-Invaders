@@ -3,7 +3,7 @@
 #define _PROJECTILE_H_
 #include "../ECS/ECS.h"
 #include "../ECS/Components.h"
-#include "../ECS/Components/Base/Timer/Timer.h"
+#include "../Base/Timer/Timer.h"
 #include "../Map/Map.h"
 #include <list> 
 
@@ -12,21 +12,51 @@ class Projectile :
 	public AutoResetTimer<>
 {
 protected:
-	Map& _map;
 public:
-	Projectile(Map& map, DamageComponent::damage_function_type damage, int delay_time, int x, int y, int forward_direction, int symbol, int color = VisibleComponent::Color::White);
+	Projectile(
+		DamageComponent::damage_function_type damage, 
+		int delay_time, 
+		int x, 
+		int y, 
+		const PositionComponent::Direction& direction,
+		int symbol, 
+		int color = VisibleComponent::Color::White
+	);
 	~Projectile();
 	virtual bool action();
 	virtual bool update();
+	virtual void on_collide(const ColliderComponent& collider_component);
 };
 
-class ProjectileList : 
+class ProjectileList :
 	public GroupMoveComponent<std::list<std::unique_ptr<Projectile>>>,
-	public GroupVisibleComponent<std::list<std::unique_ptr<Projectile>>> {
+	public GroupVisibleComponent<std::list<std::unique_ptr<Projectile>>>
+{
 public:
-	template<class _Projectile >
-	void add_projectile(Map& map, DamageComponent::damage_function_type damage, int delay_time, int x, int y, int forward_direction, int symbol, int color = VisibleComponent::Color::White) {
-		_container.emplace_back(std::make_unique<_Projectile>(map, damage, delay_time, x, y, forward_direction, symbol, color));
+	template<class _Projectile>
+	void add_projectile(
+		DamageComponent::damage_function_type damage,
+		int delay_time,
+		int x,
+		int y,
+		const PositionComponent::Direction& direction,
+		int symbol,
+		int color = VisibleComponent::Color::White
+	)
+	{
+		_container.emplace_back(std::make_unique<_Projectile>(
+			damage,
+			delay_time,
+			x,
+			y,
+			direction,
+			symbol,
+			color
+			)
+		);
 	}
+
+	void action();
+	void update();
 };
 #endif

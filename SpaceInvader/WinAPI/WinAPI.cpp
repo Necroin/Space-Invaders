@@ -52,11 +52,17 @@ namespace WinAPI {
 		DWORD written;
 		FillConsoleOutputCharacterA(GetStdHandle(STD_OUTPUT_HANDLE), static_cast<CHAR>(symbol), count, COORD{ static_cast<SHORT>(x), static_cast<SHORT>(y) }, & written);
 	}
-	void put_symbol(char symbol, size_t x, size_t y, int color, size_t count)
+	void put_color_symbol(char symbol, size_t x, size_t y, int color, size_t count)
 	{
 		DWORD written;
 		auto handle = GetStdHandle(STD_OUTPUT_HANDLE);
 		FillConsoleOutputAttribute(handle, (WORD)color, count, COORD{ static_cast<SHORT>(x), static_cast<SHORT>(y) }, & written);
 		FillConsoleOutputCharacterA(handle, static_cast<CHAR>(symbol), count, COORD{ static_cast<SHORT>(x), static_cast<SHORT>(y) }, & written);
+	}
+
+	void put_string(const char* string, size_t length, size_t x, size_t y)
+	{
+		DWORD written;
+		WriteConsoleOutputCharacterA(GetStdHandle(STD_OUTPUT_HANDLE), string, length, COORD{ static_cast<SHORT>(x), static_cast<SHORT>(y) }, & written);
 	}
 }

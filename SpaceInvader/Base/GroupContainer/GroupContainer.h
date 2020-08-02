@@ -23,15 +23,13 @@ protected:
 public:
 	using value_type = decltype(*_Container().begin());
 public:
-	_Container& data() { return _container; }
-	const _Container& data() const { return _container; }
+	      _Container& data()       noexcept { return _container; }
+	const _Container& data() const noexcept { return _container; }
 
-	decltype(auto) begin() { return _container.begin(); }
-	decltype(auto) end() { return _container.end(); }
+	decltype(auto) begin() noexcept { return _container.begin(); }
+	decltype(auto) end  () noexcept { return _container.end();   }
 
-	decltype(auto) begin() const { return _container.begin(); }
-	decltype(auto) end() const { return _container.end(); }
-
-
+	decltype(auto) begin() const noexcept { return _container.begin(); }
+	decltype(auto) end  () const noexcept { return _container.end();   }
 };
 #endif

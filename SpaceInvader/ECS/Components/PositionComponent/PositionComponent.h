@@ -3,53 +3,65 @@
 #define _POSITIONCOMPONENT_H_
 #include "../../ECS.h"
 
-
-/**
-constructor : PositionComponent(int x, int y, int forward_direction)
-methoods :
-int x()
-int y()
-void move_left()
-void move_right()
-void move_up()
-void move_down()
-*/
-class PositionComponent : public Component {
+class PositionComponent : 
+	public Component
+{
 public:
-	enum Direction {
+	struct Coordinates {
+		int x;
+		int y;
+	};
+	enum class HorizontalDirection {
+		null,
 		left,
+		right
+	};
+	enum class VerticalDirection {
+		null,
 		up,
-		right,
 		down
+	};
+	struct Direction {
+		PositionComponent::HorizontalDirection horizontal_direction;
+		PositionComponent::VerticalDirection vertical_direction;
 	};
 private:
 	int _x;
 	int _y;
-	int _forward_direction;
+	HorizontalDirection _horizontal_direction;
+	VerticalDirection _vertical_direction;
 public:
+	PositionComponent(int x, int y);
+	PositionComponent(
+		int x,
+		int y,
+		HorizontalDirection horizontal_direction,
+		VerticalDirection vertical_direction = VerticalDirection::null
+	);
+	PositionComponent(
+		int x,
+		int y,
+		VerticalDirection vertical_direction,
+		HorizontalDirection horizontal_direction = HorizontalDirection::null
+	);
+public:
+	int x() const noexcept;
+	int y() const noexcept;
+	int forward_x() const noexcept;
+	int forward_y() const noexcept;
+	Coordinates coordinates();
 	void move_left();
 	void move_right();
 	void move_up();
 	void move_down();
-private:
-	inline static std::array<decltype(&move_left),4> _direction_move = {
-		&move_left,
-		&move_up,
-		&move_right,
-		&move_down
-	};
-public:
-	PositionComponent(int x, int y, int forward_direction);
-	
-	int x();
-	int forward_x();
-	int y();
-	int forward_y();
-	std::pair<int, int> coordinates();
 	void move_to(int x, int y);
 	void move_forward();
-	bool operator==(const PositionComponent& other);
-	bool operator!=(const PositionComponent& other);
+	void set_direction(HorizontalDirection horizontal_direction);
+	void set_direction(VerticalDirection vertical_direction);
+	void set_direction(HorizontalDirection horizontal_direction, VerticalDirection vertical_direction);
+	Direction direction() const noexcept;
+	bool operator==(const PositionComponent& other) const noexcept;
+	bool operator!=(const PositionComponent& other) const noexcept;
 	virtual Component* copy() const override;
 };
 #endif

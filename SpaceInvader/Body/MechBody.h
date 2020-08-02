@@ -6,12 +6,16 @@
 #include <list>
 #include <memory>
 
-class MechBody : public Entity {
+class MechBody :
+	public Entity
+{
 private:
 	friend bool is_collide(const MechBody&, const MechBody&);
-
+	friend bool is_collide(const MechBody& body, const Projectile& projectile);
 protected:
-	class BodyElement : public Entity {
+	class BodyElement :
+		public Entity
+	{
 	public:
 		virtual ~BodyElement() {}
 		virtual void action() {}
@@ -19,13 +23,14 @@ protected:
 	};
 
 
-	class BodyElementsList : 
+	class BodyElementsList :
 		public GroupVisibleComponent<std::list<std::unique_ptr<BodyElement>>>,
 		public GroupMoveComponent<std::list<std::unique_ptr<BodyElement>>>
 	{
 	public:
 		void action() { for (auto&& body_element : this->_container) { body_element->action(); } }
 		void update() { for (auto&& body_element : this->_container) { body_element->update(); } }
+	public:
 		template<class _BodyElement, class... Args>
 		_BodyElement& add_element(Args&&... args) {
 			_container.emplace_back(std::make_unique<_BodyElement>(std::forward<Args>(args)...));

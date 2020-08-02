@@ -3,14 +3,8 @@
 #define _VISIBLECOMPONENT_H_
 #include "../../ECS.h"
 
-/**
-cunstructor : VisibleComponent(char symbol, int color = Color::White)
-methoods :
-void show() const
-void hide() const
-void set_color(int color)
-*/
-class VisibleComponent : public Component
+class VisibleComponent : 
+	public Component
 {
 public:
 	enum Color : int {
@@ -39,6 +33,7 @@ public:
 	VisibleComponent(char symbol, int color = Color::White);
 	void show() const;
 	void hide() const;
+	int color() const noexcept;
 	void set_color(int color);
 	virtual Component* copy() const override;
 };

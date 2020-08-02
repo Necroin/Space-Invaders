@@ -6,11 +6,8 @@
 class Weapon : public AutoResetTimer<> {
 protected:
 	ProjectileList& _projectiles;
-	Map& _map;
 public:
-	Weapon(Map& map, ProjectileList& projectiles, int fire_delay);
-	virtual void action();
-	virtual void update();
+	Weapon(ProjectileList& projectiles, int fire_delay);
 	virtual void shoot() = 0;
 };
 #endif

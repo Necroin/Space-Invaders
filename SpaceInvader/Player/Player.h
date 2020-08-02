@@ -3,7 +3,6 @@
 #define _PLAYER_H_
 #include "../Body/MechBody.h"
 #include "../Weapon/Railgun/Railgun.h"
-#include "../ECS/Components/Base/Timer/Timer.h"
 #include "../Map/Map.h"
 
 class Player : public MechBody
@@ -21,20 +20,20 @@ protected:
 private:
 	struct Parameters
 	{
-		static const int HP = 100;
+		static const int HP = 1000;
 		static const int damage = 10;
 	};
 	AutoResetTimer<> _input_delay_timer;
 	inline static const size_t _input_dalay_time = 100;
 	Weapon* _railgun = nullptr;
 	Weapon* _current_weapon = nullptr;
-	Map& _map;
 	ProjectileList& _projectiles;
 public:
-	Player(Map& map, ProjectileList& projecitles);
+	Player(ProjectileList& projecitles);
 	~Player();
 public:
 	void action();
 	void update();
+	void on_collide(const ColliderComponent& collider_component);
 };
 #endif

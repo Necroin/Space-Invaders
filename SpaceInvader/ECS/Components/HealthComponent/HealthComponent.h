@@ -4,18 +4,19 @@
 #include "../../ECS.h"
 #include "../DamageComponent/DamageComponent.h"
 
-/**
-constructor : HealthComponent(int health, int shield = 0)
-methoods :
-bool apply_damage(const DamageComponent& damage_component)
-*/
-class HealthComponent : public Component {
+class HealthComponent : 
+	public Component
+{
 private:
 	int _health;
 	int _shield;
+	bool _changed;
 public:
 	HealthComponent(int health, int shield = 0);
 	bool apply_damage(const DamageComponent& damage_component);
 	virtual Component* copy() const override;
+	bool is_changed();
+	int value();
+	virtual void update() override;
 };
 #endif

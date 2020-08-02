@@ -5,7 +5,9 @@ ComponentId Get_component_id() {
 	return id++;
 }
 
-Entity& Component::entity() { return *_entity; }
+Component::~Component() {}
+
+Entity& Component::entity() const { return *_entity; }
 
 Entity::Entity(const Entity& other) 
 {

@@ -26,7 +26,9 @@ private:
 protected:
 	Entity* _entity;
 public:
-	Entity& entity();
+	virtual ~Component();
+
+	Entity& entity() const;
 
 	virtual void action() {}
 	virtual void update() {}

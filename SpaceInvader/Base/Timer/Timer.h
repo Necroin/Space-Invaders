@@ -9,6 +9,7 @@ template<bool _Reference = false>
 class Timer {
 protected:
 	using int_type = std::conditional_t<_Reference, int&, int>;
+protected:
 	mutable int _time;
 	int_type _start_time;
 public:
@@ -18,7 +19,8 @@ public:
 };
 
 template<bool _Reference = false>
-class AutoResetTimer : public Timer<_Reference>
+class AutoResetTimer : 
+	public Timer<_Reference>
 {
 public:
 	AutoResetTimer(Timer<_Reference>::int_type start_time) : Timer<_Reference>(start_time) {}

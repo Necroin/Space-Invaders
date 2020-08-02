@@ -8,4 +8,5 @@
 #include "Components/VisibleComponent/VisibleComponent.h"
 #include "Components/Group/VisiblleComponent/GroupVisibleComponent.h"
 #include "Components/Group/MoveComponent/GroupMoveComponent.h"
+#include "Components/ReferenceCounterComponent/RefecenceCounterComponent.h"
 #endif

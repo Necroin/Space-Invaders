@@ -5,40 +5,46 @@
 #include <random>
 #include "../ECS/ECS.h"
 #include "../ECS/Components.h"
-#include "../ECS/Components/Base/Timer/Timer.h"
-
-struct Rect {
-	int x;
-	int y;
-	int width;
-	int height;
-};
+#include "../Base/Timer/Timer.h"
+#include "../Base/Rectangle/Rectangle.h"
 
 class Map {
 private:
-	class Star : public Entity {
+	inline static size_t _frame_x;
+	inline static size_t _frame_y;
+	inline static size_t _frame_width;
+	inline static size_t _frame_height;
+	inline static size_t _width;
+	inline static size_t _height;
+private:
+	class Star : 
+		public Entity
+	{
 	public:
 		Star(size_t x, size_t y);
 	};
 private:
-	size_t _frame_x;
-	size_t _frame_y;
-	size_t _frame_width;
-	size_t _frame_height;
-	size_t _width;
-	size_t _height;
-	std::random_device _stars_random_device;
-	std::vector<Star> _stars;
-	AutoResetTimer<> _stars_update_timer;
+	inline static std::random_device _stars_random_device;
+	inline static std::vector<Star> _stars;
 	inline static const size_t _stars_update_delay = 100;
+	inline static AutoResetTimer<> _stars_update_timer = AutoResetTimer<>(_stars_update_delay);
 public:
-	Map(size_t frame_x, size_t frame_y, size_t width, size_t height);
-
-	void update();
-	void show_frame();
-	Rect frame_position();
-	Rect position();
-	void show() const;
+	static void create(size_t frame_x, size_t frame_y, size_t width, size_t height);
+	static void update();
+	static Base::Rectangle position();
+	static Base::Rectangle frame_position();
+	static size_t x();
+	static size_t y();
+	static size_t width();
+	static size_t height();
+	static size_t frame_x();
+	static size_t frame_y();
+	static size_t frame_width();
+	static size_t frame_height();
+	static void show();
+	static void show_frame();
+	static void hide();
+	static bool in_map(int x, int y);
 };
 
 #endif

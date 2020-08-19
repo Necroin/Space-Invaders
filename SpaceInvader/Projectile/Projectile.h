@@ -5,6 +5,7 @@
 #include "../ECS/Components.h"
 #include "../Base/Timer/Timer.h"
 #include "../Map/Map.h"
+#include "../Data/Data.h"
 #include <list> 
 
 class Projectile : 

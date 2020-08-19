@@ -5,6 +5,7 @@
 #include "../Player/Player.h"
 #include "../Enemy/EnemySpawner/EnemySpawner.h"
 #include "../UI/UI.h"
+#include "../FSM/FSM.h"
 
 class Game {
 private:
@@ -13,8 +14,17 @@ private:
 	ProjectileList _player_projectiles;
 	ProjectileList _enemies_projectiles;
 	std::unique_ptr<EnemySpawner> _enemy_spawner;
-	std::unique_ptr<PushButton> _exit_button;
+
+
 	std::unique_ptr<HorizontalLayout> _player_stats;
+	std::unique_ptr<VerticalLayout> _menu_buttons;
+
+	enum class GameState {
+		Menu,
+		Play
+	};
+	GameState _game_state;
+	FSM::FSM<GameState> _game_fsm;
 public:
 	Game();
 	~Game();
@@ -22,6 +32,10 @@ public:
 	void action();
 	void update();
 	void render();
+
+	void menu();
+
+	void run();
 private:
 	bool _active = true;
 public:

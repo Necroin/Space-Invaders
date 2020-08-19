@@ -7,8 +7,9 @@ HealthComponent::HealthComponent(int health, int shield) :
 
 bool HealthComponent::apply_damage(const DamageComponent& damage_component)
 {
-	_changed = true;
-	return damage_component(_health, _shield);
+	bool result = damage_component(_health, _shield);
+	_changed_event(_health);
+	return result;
 }
 
 Component* HealthComponent::copy() const
@@ -16,17 +17,12 @@ Component* HealthComponent::copy() const
 	return new HealthComponent(_health, _shield);
 }
 
-bool HealthComponent::is_changed()
-{
-	return _changed;
-}
-
 int HealthComponent::value()
 {
 	return _health;
 }
 
-void HealthComponent::update()
+IEvent<int>& HealthComponent::changed_event()
 {
-	_changed = false;
+	return _changed_event;
 }

@@ -29,43 +29,49 @@ const std::string Text::text()
 void Text::set_text(const std::string& text)
 {
 	std::size_t prev_width = _position.width;
-	WinAPI::put_symbol(' ', _position.x, _position.y, _position.width);
 	_text = text;
 	_position.width = _text.size();
+	if (!_hiden) WinAPI::put_symbol(' ', _position.x, _position.y, prev_width);
 	if (prev_width != _position.width) {
 		decltype(auto) root_update_position = &Text::UIObject::update_position;
 		(root()->*root_update_position)();
-		root()->hide();
-		root()->show();
+		if (!_hiden) {
+			root()->hide();
+			root()->show();
+		}
 	}
 	else {
-		WinAPI::put_string(_text.c_str(), _position.width, _position.x, _position.y);
+		if (!_hiden) WinAPI::put_string(_text.c_str(), _position.width, _position.x, _position.y);
 	}
 }
 
 void Text::set_text(const char* text)
 {
 	std::size_t prev_width = _position.width;
-	WinAPI::put_symbol(' ', _position.x, _position.y, _position.width);
 	_text = text;
 	_position.width = _text.size();
+	if (!_hiden) WinAPI::put_symbol(' ', _position.x, _position.y, prev_width);
 	if (prev_width != _position.width) {
 		decltype(auto) root_update_position = &Text::UIObject::update_position;
 		(root()->*root_update_position)();
-		root()->hide();
-		root()->show();
+		if (!_hiden) {
+			root()->hide();
+			root()->show();
+		}
 	}
 	else {
-		WinAPI::put_string(_text.c_str(), _position.width, _position.x, _position.y);
+		if (!_hiden) WinAPI::put_string(_text.c_str(), _position.width, _position.x, _position.y);
 	}
 }
 
 void Text::show() const
 {
 	WinAPI::put_string(_text.c_str(), _position.width, _position.x, _position.y);
+	_hiden = false;
 }
 
 void Text::hide() const
 {
 	WinAPI::put_symbol(' ', _position.x, _position.y, _position.width);
+	_hiden = true;
 }

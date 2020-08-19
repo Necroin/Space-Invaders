@@ -10,6 +10,7 @@ class Text :
 {
 private:
 	std::string _text;
+	mutable bool _hiden = true;
 public:
 	Text(const char* text, UIObject* parent = nullptr);
 	Text(const std::string& text, UIObject* parent = nullptr);

@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include "../Enemy/Enemy.h"
 
 Projectile::Projectile(
 	DamageComponent::damage_function_type damage,
@@ -35,7 +36,18 @@ bool Projectile::update()
 
 void Projectile::on_collide(const ColliderComponent& collider_component)
 {
-	if (collider_component.tag() == ObjectTag::Enemy || collider_component.tag() == ObjectTag::Player) {
+	if (collider_component.tag() == ObjectTag::Enemy) {
+		decltype(auto) entity = collider_component.entity();
+		if (entity.has_component<HealthComponent>() &&
+			!entity.get_component<HealthComponent>().apply_damage(this->get_component<DamageComponent>())) {
+			entity.destroy();
+			score += static_cast<Enemy&>(entity).scrore_reward();
+			score_changed(score);
+			player_money += static_cast<Enemy&>(entity).money_reward();
+			player_money_changed(player_money);
+		}
+	}
+	if (collider_component.tag() == ObjectTag::Player) {
 		decltype(auto) entity = collider_component.entity();
 		if (entity.has_component<HealthComponent>() &&
 			!entity.get_component<HealthComponent>().apply_damage(this->get_component<DamageComponent>())) {

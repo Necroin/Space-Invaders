@@ -24,12 +24,15 @@ private:
 	Entity& _parent;
 	int _projectile_action_delay_time = 20;
 	int _color;
+	inline static std::string _name = "Railgun";
 public:
 	Railgun(
 		Entity& parent, 
 		ProjectileList& projectiles, 
 		int fire_delay,
+		int damage,
 		int color = VisibleComponent::Color::White);
 	virtual void shoot() override;
+	virtual std::string& name() const override;
 };
 #endif

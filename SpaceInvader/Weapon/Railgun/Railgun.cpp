@@ -5,11 +5,12 @@
 Railgun::Railgun(
 	Entity& parent, 
 	ProjectileList& projectiles, 
-	int fire_delay, 
+	int fire_delay,
+	int damage,
 	int color
 )
 	:
-	Weapon(projectiles, fire_delay),
+	Weapon(projectiles, fire_delay, damage),
 	_parent(parent),
 	_color(color)
 {}
@@ -20,7 +21,7 @@ void Railgun::shoot()
 		decltype(auto) position_component = _parent.get_component<PositionComponent>();
 		if (Map::in_map(position_component.forward_x(), position_component.forward_y())) {
 			_projectiles.add_projectile<RailgunProjectile>(
-				default_damage(10),
+				default_damage(_damage),
 				_projectile_action_delay_time,
 				position_component.forward_x(),
 				position_component.forward_y(),
@@ -30,6 +31,11 @@ void Railgun::shoot()
 				);
 		}
 	}
+}
+
+std::string& Railgun::name() const
+{
+	return _name;
 }
 
 Railgun::RailgunProjectile::RailgunProjectile(

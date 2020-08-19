@@ -17,7 +17,7 @@ Interceptor::Interceptor(ProjectileList& projectiles, int x, int y) :
 
 Interceptor::~Interceptor()
 {
-	_body.data().front()->get_component<VisibleComponent>().hide();
+	_body.hide();
 }
 
 void Interceptor::action()
@@ -54,7 +54,7 @@ void Interceptor::update()
 }
 
 Interceptor::AttackBodyElement::AttackBodyElement(ProjectileList& projectiles) : 
-	_weapon(*this, projectiles, 1000, VisibleComponent::Color::Red) {}
+	_weapon(*this, projectiles, 1000, 10, VisibleComponent::Color::Red) {}
 
 void Interceptor::AttackBodyElement::action()
 {

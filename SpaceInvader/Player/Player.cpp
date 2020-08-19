@@ -44,13 +44,18 @@ Player::Player(ProjectileList& projectiles) :
 
 	_body.show();
 
-	_railgun = new Railgun(attack_element, _projectiles, 100, VisibleComponent::Color::Green);
+	_railgun = new Railgun(attack_element, _projectiles, 100, Parameters::damage, VisibleComponent::Color::Green);
 	_current_weapon = _railgun;
+	_current_weapon_damage_change_handler = createLambdaEventHandler([&weapon_change_event = _weapon_changed_event, &weapon = _current_weapon](int new_damage) {
+			weapon_change_event(weapon->name(), new_damage);
+	});
+	_current_weapon->damage_change_event() += _current_weapon_damage_change_handler;
 }
 
 Player::~Player()
 {
 	if(_railgun) delete _railgun;
+	_body.hide();
 }
 
 void Player::action()
@@ -92,6 +97,16 @@ void Player::on_collide(const ColliderComponent& collider_component)
 	if (collider_component.tag() == ObjectTag::Projectile) {
 		collider_component.entity().destroy();
 	}
+}
+
+IEvent<std::string&, int>& Player::weapon_changed_event()
+{
+	return _weapon_changed_event;
+}
+
+const Weapon& Player::curent_weapon() const
+{
+	return *_current_weapon;
 }
 
 void Player::AttackBodyElement::action()

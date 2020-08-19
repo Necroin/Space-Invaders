@@ -1,13 +1,13 @@
 #include "PushButton.h"
 #include "../../WinAPI/WinAPI.h"
 
-PushButton::PushButton(const char* text) :
-	UIObject(nullptr, Base::Rectangle{ 0, 0, static_cast<int>(std::string_view(text).size()) + 2 , 3 }),
+PushButton::PushButton(const char* text, UIObject* parent) :
+	UIObject(parent, Base::Rectangle{ 0, 0, static_cast<int>(std::string_view(text).size()) + 2 , 3 }),
 	_text(text)
 {}
 
-PushButton::PushButton(const std::string& text) :
-	UIObject(nullptr, Base::Rectangle{ 0, 0, static_cast<int>(text.size()) + 2, 3 }),
+PushButton::PushButton(const std::string& text, UIObject* parent) :
+	UIObject(parent, Base::Rectangle{ 0, 0, static_cast<int>(text.size()) + 2, 3 }),
 	_text(text)
 {}
 
@@ -47,9 +47,34 @@ void PushButton::hide() const
 
 void PushButton::event()
 {
+	static auto mouse_pressed = []() -> bool
+	{
+		static bool pressed = false;
+		static bool was_pressed = false;
+		pressed = (GetKeyState(VK_LBUTTON) & 0x8000);
+		if (pressed && !was_pressed) {
+			was_pressed = true;
+			return true;
+		}
+		was_pressed = pressed;
+		return false;
+	};
+	if (mouse_pressed()) {
+		auto mouse_coords = WinAPI::GetCursorWindowPosition();
+		if (mouse_coords.X >= _position.x && mouse_coords.X < _position.x + _position.width &&
+			mouse_coords.Y >= _position.y && mouse_coords.Y < _position.y + _position.height)
+		{
+			_pressed();
+		}
+	}
 }
 
 void PushButton::set_text(const std::string& text)
 {
 	_text = text;
+}
+
+IEvent<>& PushButton::pressed()
+{
+	return _pressed;
 }
